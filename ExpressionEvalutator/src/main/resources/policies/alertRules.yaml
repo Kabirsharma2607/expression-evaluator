@@ -1,0 +1,24 @@
+policyName: "alertRules"
+description: "System monitoring alert conditions"
+version: "2.0"
+rules:
+  cpuAlert:
+    expression: "featureMap.cpuUsage > 80"
+    description: "CPU usage exceeds threshold"
+    dependencies: []
+  memoryAlert:
+    expression: "featureMap.memoryUsage > 90"
+    description: "Memory usage exceeds threshold"
+    dependencies: []
+  diskAlert:
+    expression: "featureMap.diskSpace < 20"
+    description: "Disk space below threshold"
+    dependencies: []
+  criticalAlert:
+    expression: "cpuAlert && memoryAlert"
+    description: "Both CPU and memory are critical"
+    dependencies: ["cpuAlert", "memoryAlert"]
+  anyAlert:
+    expression: "cpuAlert || memoryAlert || diskAlert"
+    description: "Any resource alert triggered"
+    dependencies: ["cpuAlert", "memoryAlert", "diskAlert"]

@@ -1,0 +1,20 @@
+policyName: "accessControlRules"
+description: "Access control validation policy"
+version: "1.2"
+rules:
+  adminCheck:
+    expression: "featureMap.userRole == 'admin'"
+    description: "Check if user has admin role"
+    dependencies: []
+  departmentCheck:
+    expression: "featureMap.department == 'finance'"
+    description: "Check if user is in finance department"
+    dependencies: []
+  clearanceCheck:
+    expression: "featureMap.securityClearance >= 2"
+    description: "Check minimum security clearance level"
+    dependencies: []
+  accessGranted:
+    expression: "adminCheck || (departmentCheck && clearanceCheck)"
+    description: "Grant access based on admin role or department+clearance"
+    dependencies: ["adminCheck", "departmentCheck", "clearanceCheck"]
