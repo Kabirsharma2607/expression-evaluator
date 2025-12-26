@@ -1,0 +1,7 @@
+{
+  "expression": "userAge > 18 && accountBalance >= 1000",
+  "featureMap": {
+    "userAge": 25,
+    "accountBalance": 5000
+  }
+}

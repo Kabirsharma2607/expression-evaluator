@@ -1,0 +1,256 @@
+{
+  "creditScoreEvaluation_excellent": {
+    "policyName": "creditScoreEvaluation",
+    "featureMap": {
+      "creditScore": 780,
+      "creditHistoryMonths": 60,
+      "debtToIncomeRatio": 0.25,
+      "creditUtilizationRatio": 0.08
+    }
+  },
+
+  "creditScoreEvaluation_poor": {
+    "policyName": "creditScoreEvaluation",
+    "featureMap": {
+      "creditScore": 520,
+      "creditHistoryMonths": 8,
+      "debtToIncomeRatio": 0.55,
+      "creditUtilizationRatio": 0.85
+    }
+  },
+
+  "fraudDetection_suspicious": {
+    "policyName": "fraudDetection",
+    "featureMap": {
+      "transactionAmount": 5000,
+      "averageMonthlySpend": 800,
+      "merchantCountry": "Russia",
+      "customerCountry": "USA",
+      "transactionsLast15Minutes": 6,
+      "distanceFromLastTransaction": 5000,
+      "timeSinceLastTransactionMinutes": 30,
+      "transactionHour": 3,
+      "merchantSeenBefore": false,
+      "transactionType": "ONLINE",
+      "deviceFingerprint": "new_device_123",
+      "lastKnownDevice": "known_device_456",
+      "failedAuthAttemptsLast24Hours": 4
+    }
+  },
+
+  "fraudDetection_normal": {
+    "policyName": "fraudDetection",
+    "featureMap": {
+      "transactionAmount": 150,
+      "averageMonthlySpend": 800,
+      "merchantCountry": "USA",
+      "customerCountry": "USA",
+      "transactionsLast15Minutes": 1,
+      "distanceFromLastTransaction": 5,
+      "timeSinceLastTransactionMinutes": 120,
+      "transactionHour": 14,
+      "merchantSeenBefore": true,
+      "transactionType": "IN_STORE",
+      "deviceFingerprint": "known_device_456",
+      "lastKnownDevice": "known_device_456",
+      "failedAuthAttemptsLast24Hours": 0
+    }
+  },
+
+  "loanApprovalRules_approved": {
+    "policyName": "loanApprovalRules",
+    "featureMap": {
+      "monthlyIncome": 8000,
+      "requestedLoanAmount": 200000,
+      "loanTermMonths": 240,
+      "incomeVariability": 0.1,
+      "incomeVerified": true,
+      "currentEmploymentMonths": 36,
+      "employmentGapMonths": 2,
+      "employmentType": "FULL_TIME",
+      "liquidAssets": 50000,
+      "hasCollateral": true,
+      "collateralValue": 250000,
+      "monthlyExpenses": 4000
+    }
+  },
+
+  "loanApprovalRules_rejected": {
+    "policyName": "loanApprovalRules",
+    "featureMap": {
+      "monthlyIncome": 3000,
+      "requestedLoanAmount": 300000,
+      "loanTermMonths": 360,
+      "incomeVariability": 0.4,
+      "incomeVerified": false,
+      "currentEmploymentMonths": 8,
+      "employmentGapMonths": 12,
+      "employmentType": "CONTRACT",
+      "liquidAssets": 5000,
+      "hasCollateral": false,
+      "collateralValue": 0,
+      "monthlyExpenses": 2800
+    }
+  },
+
+  "riskAssessment_lowRisk": {
+    "policyName": "riskAssessment",
+    "featureMap": {
+      "customerAge": 35,
+      "residenceTimeMonths": 48,
+      "residenceType": "OWNED",
+      "bankRelationshipMonths": 24,
+      "averageMonthlySavings": 1200,
+      "savingsToIncomeRatio": 0.15,
+      "latePaymentsLast12Months": 0,
+      "overdraftsLast12Months": 0,
+      "totalDebtToIncomeRatio": 0.25,
+      "liquidityRatio": 0.2,
+      "incomeSourcesCount": 2,
+      "primaryIncomeStability": 0.9,
+      "industryRiskScore": 2,
+      "geographicRiskScore": 1,
+      "localUnemploymentRate": 0.04
+    }
+  },
+
+  "riskAssessment_highRisk": {
+    "policyName": "riskAssessment",
+    "featureMap": {
+      "customerAge": 22,
+      "residenceTimeMonths": 6,
+      "residenceType": "RENTAL",
+      "bankRelationshipMonths": 8,
+      "averageMonthlySavings": -200,
+      "savingsToIncomeRatio": -0.05,
+      "latePaymentsLast12Months": 5,
+      "overdraftsLast12Months": 8,
+      "totalDebtToIncomeRatio": 0.65,
+      "liquidityRatio": 0.02,
+      "incomeSourcesCount": 1,
+      "primaryIncomeStability": 0.4,
+      "industryRiskScore": 5,
+      "geographicRiskScore": 4,
+      "localUnemploymentRate": 0.12
+    }
+  },
+
+  "insuranceUnderwriting_preferred": {
+    "policyName": "insuranceUnderwriting",
+    "featureMap": {
+      "applicantAge": 35,
+      "smoker": false,
+      "alcoholConsumption": "MODERATE",
+      "exerciseFrequency": 4,
+      "hasChronicConditions": false,
+      "familyHistoryRisk": 1,
+      "bmi": 24.5,
+      "accidentsLast5Years": 0,
+      "movingViolationsLast3Years": 0,
+      "dui": false,
+      "drivingExperienceYears": 15,
+      "annualIncome": 75000,
+      "employmentStatus": "EMPLOYED",
+      "employmentStabilityYears": 5,
+      "requestedCoverage": 500000,
+      "insurancePaymentHistory": "EXCELLENT",
+      "creditScore": 720,
+      "propertyAge": 10,
+      "propertyCondition": "GOOD",
+      "securityFeatures": 3,
+      "crimeRateArea": 1,
+      "naturalDisasterRisk": 2
+    }
+  },
+
+  "insuranceUnderwriting_highrisk": {
+    "policyName": "insuranceUnderwriting",
+    "featureMap": {
+      "applicantAge": 78,
+      "smoker": true,
+      "alcoholConsumption": "HEAVY",
+      "exerciseFrequency": 0,
+      "hasChronicConditions": true,
+      "familyHistoryRisk": 5,
+      "bmi": 35.2,
+      "accidentsLast5Years": 3,
+      "movingViolationsLast3Years": 5,
+      "dui": true,
+      "drivingExperienceYears": 50,
+      "annualIncome": 25000,
+      "employmentStatus": "RETIRED",
+      "employmentStabilityYears": 0,
+      "requestedCoverage": 1000000,
+      "insurancePaymentHistory": "POOR",
+      "creditScore": 520,
+      "propertyAge": 45,
+      "propertyCondition": "FAIR",
+      "securityFeatures": 0,
+      "crimeRateArea": 4,
+      "naturalDisasterRisk": 5
+    }
+  },
+
+  "portfolioManagement_conservative": {
+    "policyName": "portfolioManagement",
+    "featureMap": {
+      "riskTolerance": 3,
+      "investmentHorizonYears": 3,
+      "investorAge": 68,
+      "totalAssets": 500000,
+      "liquidAssets": 75000,
+      "emergencyFundMonths": 8,
+      "liquidityRatio": 0.25,
+      "assetClassCount": 3,
+      "largestHoldingPercentage": 0.15,
+      "domesticAllocation": 0.8,
+      "internationalAllocation": 0.15,
+      "largestSectorAllocation": 0.2,
+      "daysSinceLastRebalance": 120,
+      "maxAllocationDrift": 0.08,
+      "marketVolatilityIndex": 30
+    }
+  },
+
+  "portfolioManagement_aggressive": {
+    "policyName": "portfolioManagement",
+    "featureMap": {
+      "riskTolerance": 8,
+      "investmentHorizonYears": 25,
+      "investorAge": 28,
+      "totalAssets": 150000,
+      "liquidAssets": 25000,
+      "emergencyFundMonths": 6,
+      "liquidityRatio": 0.18,
+      "assetClassCount": 5,
+      "largestHoldingPercentage": 0.08,
+      "domesticAllocation": 0.6,
+      "internationalAllocation": 0.35,
+      "largestSectorAllocation": 0.2,
+      "daysSinceLastRebalance": 45,
+      "maxAllocationDrift": 0.02,
+      "marketVolatilityIndex": 15
+    }
+  },
+
+  "portfolioManagement_qualified": {
+    "policyName": "portfolioManagement",
+    "featureMap": {
+      "riskTolerance": 6,
+      "investmentHorizonYears": 15,
+      "investorAge": 45,
+      "totalAssets": 2500000,
+      "liquidAssets": 300000,
+      "emergencyFundMonths": 12,
+      "liquidityRatio": 0.2,
+      "assetClassCount": 6,
+      "largestHoldingPercentage": 0.05,
+      "domesticAllocation": 0.65,
+      "internationalAllocation": 0.3,
+      "largestSectorAllocation": 0.15,
+      "daysSinceLastRebalance": 60,
+      "maxAllocationDrift": 0.03,
+      "marketVolatilityIndex": 20
+    }
+  }
+}

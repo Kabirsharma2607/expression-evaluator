@@ -1,0 +1,105 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+    name: expression-evaluator-api
+  jackson:
+    property-naming-strategy: LOWER_CAMEL_CASE
+    default-property-inclusion: non_null
+    serialization:
+      write-dates-as-timestamps: false
+  task:
+    execution:
+      pool:
+        core-size: 2
+        max-size: 4
+        queue-capacity: 100
+        thread-name-prefix: "async-cache-"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: alpha
+    tagsSorter: alpha
+
+logging:
+  level:
+    com.example: DEBUG
+    org.springframework.web: INFO
+
+# Custom properties
+policy:
+  location: classpath:policies/
+  cache:
+    enabled: true
+    ttl: 3600
+
+# S3 Integration Configuration
+s3:
+  policy:
+    # Enable/disable S3 integration (set to false to use local files only)
+    enabled: ${S3_POLICY_ENABLED:true}
+
+    # S3 bucket name containing policy YAML files
+    bucket-name: ${S3_POLICY_BUCKET:expression-evaluator-policies}
+
+    # AWS region for the S3 bucket
+    region: ${AWS_REGION:ap-south-1}
+
+    # Prefix/folder path for policy files in the bucket
+    prefix: ${S3_POLICY_PREFIX:policies/}
+
+    # Cache time-to-live in minutes
+    cache-ttl-minutes: ${S3_CACHE_TTL_MINUTES:60}
+
+    # Refresh interval for periodic cache updates (in milliseconds)
+    refresh-interval-ms: ${S3_REFRESH_INTERVAL_MS:3600000}  # 1 hour
+
+    # Cache cleanup interval (in milliseconds)
+    cleanup-interval-ms: ${S3_CLEANUP_INTERVAL_MS:300000}   # 5 minutes
+
+    # Health check interval (in milliseconds)
+    health-check-interval-ms: ${S3_HEALTH_CHECK_INTERVAL_MS:600000}  # 10 minutes
+
+    # Maximum retry attempts for S3 operations
+    max-retries: ${S3_MAX_RETRIES:3}
+
+    # Connection timeout in milliseconds
+    connection-timeout-ms: ${S3_CONNECTION_TIMEOUT_MS:5000}
+
+    # Read timeout in milliseconds
+    read-timeout-ms: ${S3_READ_TIMEOUT_MS:10000}
+
+    # Use default AWS credential provider chain (IAM roles, instance profile, etc.)
+    use-default-credentials: ${S3_USE_DEFAULT_CREDENTIALS:false}
+
+    # AWS access key (optional - prefer IAM roles)
+    access-key: ${AWS_ACCESS_KEY_ID:}
+
+    # AWS secret key (optional - prefer IAM roles)
+    secret-key: ${AWS_SECRET_ACCESS_KEY:}
+
+    # Enable fallback to local files when S3 is unavailable
+    enable-fallback: ${S3_ENABLE_FALLBACK:true}
+
+    # Local fallback directory path
+    fallback-path: ${S3_FALLBACK_PATH:classpath:policies/}
+
+# Cache Configuration
+cache:
+  caffeine:
+    spec: maximumSize=1000,expireAfterWrite=60m,recordStats

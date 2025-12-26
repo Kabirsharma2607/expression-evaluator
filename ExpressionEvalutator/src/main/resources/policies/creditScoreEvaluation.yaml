@@ -1,0 +1,71 @@
+policyName: creditScoreEvaluation
+description: Comprehensive credit score evaluation policy for loan approval decisions
+version: "1.0"
+
+rules:
+  # Basic credit score thresholds
+  excellentCreditScore:
+    expression: "featureMap.creditScore >= 750"
+    description: "Credit score is excellent (750+)"
+
+  goodCreditScore:
+    expression: "featureMap.creditScore >= 650 && featureMap.creditScore < 750"
+    description: "Credit score is good (650-749)"
+
+  fairCreditScore:
+    expression: "featureMap.creditScore >= 550 && featureMap.creditScore < 650"
+    description: "Credit score is fair (550-649)"
+
+  poorCreditScore:
+    expression: "featureMap.creditScore < 550"
+    description: "Credit score is poor (<550)"
+
+  # Credit history length checks
+  establishedCreditHistory:
+    expression: "featureMap.creditHistoryMonths >= 24"
+    description: "Has established credit history (2+ years)"
+
+  shortCreditHistory:
+    expression: "featureMap.creditHistoryMonths < 24 && featureMap.creditHistoryMonths >= 6"
+    description: "Has short but existing credit history (6-23 months)"
+
+  noCreditHistory:
+    expression: "featureMap.creditHistoryMonths < 6"
+    description: "No significant credit history (<6 months)"
+
+  # Debt-to-income ratio checks
+  lowDebtToIncome:
+    expression: "featureMap.debtToIncomeRatio <= 0.3"
+    description: "Low debt-to-income ratio (≤30%)"
+
+  moderateDebtToIncome:
+    expression: "featureMap.debtToIncomeRatio > 0.3 && featureMap.debtToIncomeRatio <= 0.43"
+    description: "Moderate debt-to-income ratio (30-43%)"
+
+  highDebtToIncome:
+    expression: "featureMap.debtToIncomeRatio > 0.43"
+    description: "High debt-to-income ratio (>43%)"
+
+  # Credit utilization checks
+  lowCreditUtilization:
+    expression: "featureMap.creditUtilizationRatio <= 0.1"
+    description: "Excellent credit utilization (≤10%)"
+
+  moderateCreditUtilization:
+    expression: "featureMap.creditUtilizationRatio > 0.1 && featureMap.creditUtilizationRatio <= 0.3"
+    description: "Good credit utilization (10-30%)"
+
+  highCreditUtilization:
+    expression: "featureMap.creditUtilizationRatio > 0.3"
+    description: "Poor credit utilization (>30%)"
+
+  # Overall credit assessment
+  primeCustomer:
+    expression: "excellentCreditScore && establishedCreditHistory && lowDebtToIncome && lowCreditUtilization"
+    dependencies: ["excellentCreditScore", "establishedCreditHistory", "lowDebtToIncome", "lowCreditUtilization"]
+    description: "Prime customer - highest credit quality"
+
+  nearPrimeCustomer:
+    expression: "(goodCreditScore && establishedCreditHistory && moderateDebtToIncome) || (excellentCreditScore && moderateDebtToIncome)"
+    dependencies: ["goodCreditScore", "excellentCreditScore", "establishedCreditHistory", "moderateDebtToIncome"]
+    description: "Near-prime customer - good credit quality"

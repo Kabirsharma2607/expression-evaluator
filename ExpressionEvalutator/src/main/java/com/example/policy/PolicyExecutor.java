@@ -2,6 +2,8 @@ package com.example.policy;
 
 import com.example.policy.model.*;
 import com.example.expression.ExpressionEvaluator;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.List;
@@ -10,15 +12,18 @@ import java.util.Map;
 /**
  * Executes policies against feature maps
  */
+@Component
+@RequiredArgsConstructor
 public class PolicyExecutor {
     private final PolicyLoader policyLoader;
-    private final FeatureMapResolver featureResolver;
-    private final ExpressionEvaluator expressionEvaluator;
+    private final FeatureMapResolver featureResolver = new FeatureMapResolver();
+    private final ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator();
 
+    /**
+     * Constructor for backward compatibility with Main class
+     */
     public PolicyExecutor() {
         this.policyLoader = new PolicyLoader();
-        this.featureResolver = new FeatureMapResolver();
-        this.expressionEvaluator = new ExpressionEvaluator();
     }
 
     /**

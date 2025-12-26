@@ -1,0 +1,8 @@
+{
+  "policyName": "fc1Rules",
+  "featureMap": {
+    "userAge": 25,
+    "accountBalance": 5000,
+    "isVIP": false
+  }
+}
