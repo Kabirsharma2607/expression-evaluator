@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  expression-evaluator:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      # S3 Configuration
+      - S3_ENABLED=true
+      - S3_BUCKET_NAME=${S3_BUCKET_NAME:-your-s3-bucket}
+      - S3_REGION=${S3_REGION:-us-east-1}
+      - S3_PREFIX=${S3_PREFIX:-policies/}
+      - S3_USE_DEFAULT_CREDENTIALS=${S3_USE_DEFAULT_CREDENTIALS:-true}
+      - S3_ACCESS_KEY=${S3_ACCESS_KEY}
+      - S3_SECRET_KEY=${S3_SECRET_KEY}
+      - S3_CONNECTION_TIMEOUT_MS=${S3_CONNECTION_TIMEOUT_MS:-30000}
+      - S3_READ_TIMEOUT_MS=${S3_READ_TIMEOUT_MS:-30000}
+      - S3_MAX_RETRIES=${S3_MAX_RETRIES:-3}
+      - S3_ENABLE_FALLBACK=${S3_ENABLE_FALLBACK:-true}
+
+      # Spring Profile
+      - SPRING_PROFILES_ACTIVE=docker
+
+      # JVM Options
+      - JAVA_OPTS=-Xmx512m -Xms256m
+
+    volumes:
+      # Mount for local policy files (fallback)
+      - ./src/main/resources/policies:/app/policies:ro
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/v1/evaluation/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+    restart: unless-stopped
+
+# For local development with AWS credentials
+# Create a .env file with:
+# S3_BUCKET_NAME=your-bucket-name
+# S3_ACCESS_KEY=your-access-key
+# S3_SECRET_KEY=your-secret-key
+# S3_REGION=us-east-1

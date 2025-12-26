@@ -1,0 +1,60 @@
+# Build artifacts
+.gradle/
+build/
+target/
+*.jar
+*.war
+*.ear
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Log files
+*.log
+logs/
+
+# Temporary files
+tmp/
+temp/
+
+# Docker files (except Dockerfile)
+docker-compose.yml
+docker-compose.*.yml
+
+# Documentation
+README.md
+*.md
+
+# Test coverage
+.nyc_output/
+coverage/
+
+# Node modules (if any)
+node_modules/
+
+# MacOS
+**/.DS_Store
+
+# AWS CLI config (security)
+.aws/
+
+# Local scripts that shouldn't be in container
+run-with-s3.sh
+local-test.sh
