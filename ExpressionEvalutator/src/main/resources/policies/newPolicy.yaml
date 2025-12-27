@@ -1,0 +1,8 @@
+policyName: "newPolicy"
+description: "New policy created from web interface"
+version: "1.0"
+rules:
+  exampleRule:
+    expression: "featureMap.someValue > 0"
+    description: "Example  as needed"
+    dependencies: []

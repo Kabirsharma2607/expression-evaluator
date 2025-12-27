@@ -303,7 +303,11 @@ public class S3PolicyLoader extends PolicyLoader {
     }
 
     private void writeLocalPolicyFile(String policyName, String content) throws IOException {
-        Path filePath = Paths.get("src/main/resources/policies", policyName + ".yaml");
+        // Use policies directory in deployment (works in both Docker and local)
+        Path filePath = Paths.get("policies", policyName + ".yaml");
+
+        // Create directory if it doesn't exist
+        filePath.getParent().toFile().mkdirs();
 
         try (FileWriter writer = new FileWriter(filePath.toFile())) {
             writer.write(content);

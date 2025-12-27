@@ -51,7 +51,7 @@ public class PolicySyncService implements ApplicationRunner {
             log.info("Found {} policy files in S3 to sync to local files", policyNames.size());
 
             // Ensure the policies directory exists
-            Path policiesDir = Paths.get("src/main/resources/policies");
+            Path policiesDir = Paths.get("policies");
             if (!Files.exists(policiesDir)) {
                 Files.createDirectories(policiesDir);
                 log.info("Created policies directory: {}", policiesDir.toAbsolutePath());
@@ -94,10 +94,10 @@ public class PolicySyncService implements ApplicationRunner {
     }
 
     /**
-     * Write policy content to local file in resources/policies directory
+     * Write policy content to local file in policies directory
      */
     private void writeLocalPolicyFile(String policyName, String content) throws IOException {
-        Path filePath = Paths.get("src/main/resources/policies", policyName + ".yaml");
+        Path filePath = Paths.get("policies", policyName + ".yaml");
 
         try (FileWriter writer = new FileWriter(filePath.toFile())) {
             writer.write(content);

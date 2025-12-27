@@ -37,12 +37,20 @@ public class PolicyLoader {
      * Loads policy from a specific file path in resources
      */
     public Policy loadPolicyFromResource(String resourcePath) {
+        // First try to load from filesystem (for deployment with S3 sync)
+        String policyName = resourcePath.replace("/policies/", "").replace(".yaml", "");
+        Policy policy = loadFromFilesystem(policyName);
+        if (policy != null) {
+            return policy;
+        }
+
+        // Fallback to classpath resources
         try (InputStream inputStream = getClass().getResourceAsStream(resourcePath)) {
             if (inputStream == null) {
                 throw new PolicyNotFoundException("Policy file not found: " + resourcePath);
             }
 
-            Policy policy = yamlMapper.readValue(inputStream, Policy.class);
+            policy = yamlMapper.readValue(inputStream, Policy.class);
 
             // Set rule names based on YAML keys
             for (Map.Entry<String, Rule> entry : policy.getRules().entrySet()) {
@@ -58,6 +66,40 @@ public class PolicyLoader {
         } catch (Exception e) {
             throw new PolicyLoadException("Failed to load policy from " + resourcePath, e);
         }
+    }
+
+    /**
+     * Try to load policy from filesystem (for S3-synced files)
+     */
+    private Policy loadFromFilesystem(String policyName) {
+        try {
+            java.nio.file.Path filePath = java.nio.file.Paths.get("policies", policyName + ".yaml");
+            if (java.nio.file.Files.exists(filePath)) {
+                String content = java.nio.file.Files.readString(filePath);
+                Policy policy = yamlMapper.readValue(content, Policy.class);
+
+                // Set policy name if not set in YAML
+                if (policy.getName() == null || policy.getName().trim().isEmpty()) {
+                    policy.setName(policyName);
+                }
+
+                // Set rule names based on YAML keys
+                for (Map.Entry<String, Rule> entry : policy.getRules().entrySet()) {
+                    entry.getValue().setName(entry.getKey());
+                }
+
+                validatePolicy(policy);
+
+                // Cache the policy
+                policyCache.put(policy.getName(), policy);
+
+                return policy;
+            }
+        } catch (Exception e) {
+            // Log but don't throw - will fallback to classpath
+            System.err.println("Failed to load from filesystem: " + e.getMessage());
+        }
+        return null;
     }
 
     /**
